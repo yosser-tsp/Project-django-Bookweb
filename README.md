@@ -5,7 +5,7 @@
 
 # CSC 8567 - Architectures distribuées et applications web
 
-Auteurs : Timothée Mathubert, Gatien Roujanski, Arthur Jovart
+Auteurs : ::Timothée Mathubert, Gatien Roujanski, Arthur Jovart
 
 ## Emails
 
