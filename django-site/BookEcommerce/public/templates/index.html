@@ -3,34 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book List</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <title>Books List</title>
+    <style>
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            min-height: 100vh;
+        }
+        .emoji-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://em-content.zobj.net/thumbs/240/apple/325/books_1f4da.png'),
+                       url('https://em-content.zobj.net/thumbs/240/apple/325/books_1f4da.png');
+            background-size: 100px 100px;
+            background-repeat: repeat;
+            z-index: -1;
+            opacity: 0.2;
+        }
+        .banner {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            color: #333;
+        }
+        .banner img {
+            max-width: 150px;
+            border-radius: 10px;
+        }
+        .search-bar {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .search-bar form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 70%;
+            max-width: 600px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .search-bar input {
+            border-radius: 30px;
+            border: 1px solid #ddd;
+            padding: 12px;
+            font-size: 1.1rem;
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+        .search-bar button {
+            border-radius: 30px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+        }
+        .product-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+        .product-card {
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 100%;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .product-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: contain;
+        }
+        .product-card-body {
+            padding: 15px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .product-card-body h5 {
+            margin: 10px 0;
+            font-size: 1.25rem;
+        }
+        .product-card-body p {
+            color: #007bff;
+            font-size: 1.1rem;
+        }
+        .product-card-body .btn {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
+    <div class="emoji-background"></div>
     <div class="container">
-        <h1 class="mt-5">Book List</h1>
-        <div class="row mt-4">
+        <div class="banner">
+            <img src="https://media.giphy.com/media/yABpvCImUCKYM/giphy.gif" alt="Books GIF">
+            <span>Welcome to the Repository of Books</span>
+            <img src="https://media.giphy.com/media/3otPonSG56cvNy9BNm/giphy.gif" alt="The Legend of Sleepy Hollow GIF">
+        </div>
+
+        <h1 class="text-center mb-4">Explore Our Books Collection</h1>
+        <div id="products" class="product-container">
+            <!-- Iterate over books passed from the Django view -->
             {% for book in books %}
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <img src="{{ book.image }}" class="card-img-top" alt="{{ book.title }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ book.title }}</h5>
-                            <p class="card-text">Author: {{ book.author.name }}</p>
-                            <p class="card-text">Price: ${{ book.price }} <span class="text-muted">(${{
-                                book.discount_price }})</span></p>
-                            <p class="card-text">{{ book.description }}</p>
-                            <a href="{% url 'detail' book.id %}" class="btn btn-primary">View Details</a>
-                        </div>
-                    </div>
+            <div class="product-card">
+                <img src="{{ book.image }}" alt="{{ book.title }}" />
+                <div class="product-card-body">
+                    <h5>{{ book.title }}</h5>
+                    <p>${{ book.price }}</p>
+                    <a href="/public/{{ book.id }}" class="btn btn-secondary">View Details</a>
                 </div>
-            {% empty %}
-                <p>No books available.</p>
+            </div>
             {% endfor %}
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

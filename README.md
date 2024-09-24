@@ -1,140 +1,267 @@
-<p align="center">
-    <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/1/1d/Logo_T%C3%A9l%C3%A9com_SudParis.svg/153px-Logo_T%C3%A9l%C3%A9com_SudParis.svg.png" alt="TSP logo">
-</p>
+# la liste des chemins URL
 
+## api
 
-# CSC 8567 - Architectures distribuées et applications web
+### Auteurs (`authors`)
 
-Auteurs : ::Timothée Mathubert, Gatien Roujanski, Arthur Jovart
+- `GET api/authors/` - Lister tous les auteurs
+- `POST api/authors/` - Créer un nouvel auteur
+- `GET api/authors/<id>/` - Récupérer un auteur spécifique
+- `PUT api/authors/<id>/` - Mettre à jour un auteur spécifique
+- `DELETE api/authors/<id>/` - Supprimer un auteur spécifique
 
-## Emails
+### Livres (`books`)
 
-Lorsque vous envoyez un mail, pensez bien à mettre "CSC 8567" au début de l'objet !
-- timothee.mathubert@telecom-sudparis.eu
-- gatien.roujanski@telecom-sudparis.eu
-- arthur.jovart@telecom-sudparis.eu
+- `GET api/books/` - Lister tous les livres
+- `POST api/books/` - Créer un nouveau livre
+- `GET api/books/<id>/` - Récupérer un livre spécifique
+- `PUT api/books/<id>/` - Mettre à jour un livre spécifique
+- `DELETE api/books/<id>/` - Supprimer un livre spécifique
 
-## Consignes
+### Critiques (`reviews`)
 
-1. **Allez avant tout à la rubrique "Installation" ci-dessous pour installer ce dont vous aurez besoin pour le cours !**
+- `GET api/reviews/` - Lister toutes les critiques
+- `POST api/reviews/` - Créer une nouvelle critique
+- `GET api/reviews/<id>/` - Récupérer une critique spécifique
+- `PUT api/reviews/<id>/` - Mettre à jour une critique spécifique
+- `DELETE api/reviews/<id>/` - Supprimer une critique spécifique
 
-2. Formez des groupes en trinômes, les plus hétérogènes possibles en niveau, et communiquez votre groupe à un enseignant.
+## public
 
-3. **Ce cours est exclusivement un cours-projet : il n'y aura pas d'examen à la fin.** En revanche, il y aura deux rendus de projet (24 septembre et 21 novembre) ainsi qu'une soutenance à la fin du cours (21 novembre).
-
-4. Vous pouvez faire le projet que vous souhaitez sous certaines conditions :
-- **Vous devez disposer de deux applications Django**, une pour **un frontend** et l'autre pour **une API retournant des données au format JSON**. 
-- Votre site web doit être accessible depuis votre interface loopback (sur l'IP 127.0.0.1) de votre PC, et contenir au moins deux pages : une pour faire des requêtes à l'API, l'autre pour afficher une liste d'objets.
-- **Votre site doit utiliser une base de données non locale (pas de fichier).** Celle-ci doit contenir un schéma relationnel de données similaire à celui ci-dessous :
-
-<p align="center">
-    <img src="https://github.com/user-attachments/assets/4cd224f5-5f64-48b7-bd6f-c25f301275ca" alt="BDD">
-</p>
-
-- Pour le rendu du 24 septembre, vous devez déployer une infrastructure similaire à celle ci-dessous en utilisant un fichier `docker-compose.yml` et des Dockerfiles. **L'application Django de l'API et du frontend devront être placées dans deux conteneurs différents. La base de données et le proxy seront dans deux conteneurs différents.**
-
-<p align="center">
-    <img src="https://github.com/user-attachments/assets/877dfc8f-ae0b-41e0-a934-19480d839d0c" alt="Infra à reproduire">
-</p>
-
-- Pour vous aider tout au long du projet, __**consultez ces différentes pages de documentation et demandez de l'aide aux enseignants**__ :
-    - Django : https://docs.djangoproject.com/en/5.1/
-    - Docker : https://docs.docker.com/manuals/ 
-    - Kubernetes (rendu final seulement) : https://kubernetes.io/fr/docs/home/
-    - Nginx (Proxy) : https://nginx.org/en/docs/
-- *Vous pouvez ajouter des applications, ajouter de la forme (Styles CSS, Bootstrap, Bulma) et des pages supplémentaires si vous le souhaitez.*
-- Les consignes pour le rendu final avec Kubernetes vous seront communiquées après le rendu du CC Django + Docker.
-
-## Modalités de rendu pour le CC Django + Docker
-
-Vous devez rendre tout le contenu de votre dépôt Github sous forme d'archive .zip ou .tar.gz, que vous avez créé à partir de ce modèle CSC8567-Projets.
-
-Ce rendu est individuel.
-
-Il contient donc :
-
- - Le projet Django fonctionnel, avec le code des deux applications (public et api).
-
- - Les fichiers Dockerfile.front (qui crée l'image de l'application "public") et Dockerfile.api (qui crée l'image de l'applicattion "api")
-
- - Le fichier docker-compose.yml
-
- - Le fichier nginx.conf (configuration du proxy)
-
-Il faut, dans la même archive zip, ajouter :
-
- - Un schéma de votre base de données
- - Un schéma de votre infrastructure réseau (réseau(x) virtuel(s) Docker + lien à votre PC)
- - Un fichier récapitulant la liste des chemins URL de votre site (/public, /api, ...)
-
-Ces deux schémas sont similaires à ceux affichés dans les consignes ci-dessus.
-
-**Votre architecture finale doit être telle que la commande "docker-compose up --build" démarre toutes vos applications, la base de données, le proxy et toutes les connexions demandées** (se référer au schéma sur le modèle Github). Ainsi, votre site doit être accessible depuis 127.0.0.1 directement dans un navigateur après l'exécution de la commande "docker-compose up --build".
-
-N'hésitez pas à ajouter à votre rendu des commentaires, qui nous aideront à mieux évaluer vos projets (et à les valoriser !).
-
-Bon courage !
-
-## Installation
-
-**Il est recommandé d'utiliser un système d'exploitation type Linux.**
-L'installation suivante fonctionne sous Ubuntu. En fonction de votre OS, il est possible qu'apt ne soit pas le gestionnaire de paquets. Remplacez simplement apt dans les commandes suivantes par votre gestionnaire de paquets.
-
-1. Créez votre propre répo de groupe en cliquant sur "Use this template"
+### Index
+   - `GET public/` - Afficher la page d'accueil (vue `index`).
    
-2. Créer un environnement virtuel Python avec Pyenv (non nécessaire si vous avez déjà un gestionnaires d'environnements virtuels pour Python)
-```
-sudo apt update -y
-sudo apt install pip curl
-curl https://pyenv.run | bash
-```
-Si vous utilisez Bash comme exécuteur de commande dans votre Shell :
-```
-echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
-echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
-echo 'eval "$(pyenv init -)"' >> ~/.bashrc
-```
-Si vous utilisez autre chose, allez voir la [documentation Pyenv](https://github.com/pyenv/pyenv?tab=readme-ov-file#set-up-your-shell-environment-for-pyenv).
+### livre détails
+   - `GET public/<int:id>/` - Afficher les détails d'un livre spécifique (vue `detail`), où `<int:id>` est l'identifiant de livre.
 
-Ensuite :
-```
-pyenv install 3.12
-```
-3. Installer les dépendances utiles
-```
-pip install django psycopg2-binary
-```
-4. Créer le projet Django & vérifier qu'il tourne correctement
-```
-cd django-site
-django-admin startproject [nom-de-votre-projet] <-- A REMPLACER
-python manage.py runserver
-```
-Allez sur 127.0.0.1:8000 sur un navigateur. Si une page "Congratulations!" s'affiche, c'est que tout fonctionne bien !
 
-5. Créer les applications utiles
+# Réponses aux questions sur le fonctionnement de Django
+
+## 1. Affichage d'une page HTML `index.html` à l'URL `/`
+
+Pour afficher une page HTML `index.html` à l'URL globale `/` via une application publique dans un projet Django, voici les étapes à suivre :
+
+### a. Création de l'application
+Exécutez la commande suivante pour créer une application nommée `public` :
+
+ ```bash
+     python manage.py startapp public
+ ```
+
+### b. Arborescence des répertoires
+
+L'arborescence des répertoires devrait ressembler à ceci :
+
 ```
-python manage.py startapp public
-python manage.py startapp api
+ myproject/
+         ├── manage.py
+         ├── myproject/
+         │   ├── __init__.py
+         │   ├── settings.py
+         │   ├── urls.py
+         │   └── wsgi.py
+         └── public/
+             ├── __init__.py
+             ├── admin.py
+             ├── apps.py
+             ├── migrations/
+             ├── models.py
+             ├── tests.py
+             ├── views.py
+             └── templates/
+                 └── public/
+                     └── index.html
 ```
 
-6. Installer Docker
-```
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-docker -v
-```
-Si la dernière commande vous affiche la version de Docker, c'est qu'il est correctement installé.
+### c. Création de la vue
 
-7. Créer un compte Docker Hub
+Création d'une vue dans `public/views.py` :
 
-Allez sur https://hub.docker.com et créez vous un compte.
+   ```python
+   from django.shortcuts import render
 
-8. Installer kubectl
+   def index(request):
+       return render(request, 'public/index.html')
+   ```
+
+### d. Configuration des URL
+
+   Créez un fichier `urls.py` dans le dossier `public` si ce n'est pas déjà fait :
+   ```python
+   from django.urls import path
+   from .views import index
+
+   urlpatterns = [
+       path('', index, name='index'),
+   ]
+   ```
+
+### e. Inclusion des URLs dans le projet
+
+   Modifiez `urls.py` dans le répertoire principal du projet :
+   ```python
+   from django.contrib import admin
+   from django.urls import include, path
+
+   urlpatterns = [
+       path('admin/', admin.site.urls),
+       path('', include('public.urls')),  
+   ]
+   ```
+
+## 2. Configuration de la base de données
+
+La configuration de la base de données dans un projet Django se fait dans le fichier suivant :
+
+- **Fichier** : `mon_projet/settings.py`
+
+### Exemple de configuration :
+
+Dans le fichier `settings.py`, vous trouverez une section appelée `DATABASES` :
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'bookdb',  # Name of your PostgreSQL database
+        'USER': 'yosser',  # PostgreSQL username
+        'PASSWORD': '2021',  # PostgreSQL password
+        'HOST': 'db',  # Database host
+        'PORT': '5432',  # Port number (default PostgreSQL port)
+    }
+}
 ```
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-kubectl version --client
-```
-Si la dernière commande vous affiche la version de kubectl, c'est qu'il est correctement installé.
 
-Et c'est parti !
+## 3. Configuration du fichier de paramètres
+
+Les fichiers qui peuvent être utilisés pour configurer les paramètres d'un projet Django comprennent :
+
+- **Fichier principal** : `mon_projet/settings.py`
+  - Ce fichier contient la configuration générale du projet, y compris la base de données, les applications installées, les middleware, les URL, etc.
+
+## 4. Exécution des commandes `makemigrations` et `migrate`
+
+### a. `python manage.py makemigrations`
+
+- **Effet** : Cette commande crée des fichiers de migration dans le dossier `migrations` de chaque application. Ces fichiers contiennent les instructions nécessaires pour appliquer les modifications des modèles à la base de données.
+
+- **Fichiers concernés** : Les fichiers générés se trouvent dans le répertoire `migrations` de votre application (par exemple, `public/migrations/0001_initial.py`).
+
+### b. `python manage.py migrate`
+
+- **Effet** : Cette commande applique les migrations à la base de données. Elle crée ou modifie les tables et les colonnes en fonction des modèles définis dans vos fichiers `models.py`.
+
+- **Fichiers concernés** : Les fichiers de migration précédemment générés, ainsi que `mon_projet/settings.py` (qui contient la configuration de la base de données).
+
+
+# Réponses aux questions sur le fonctionnement de Docker
+
+## Commandes Dockerfile
+
+### 1. FROM
+- **Effet** : Indique l'image de base à partir de laquelle construire le conteneur.
+- **Syntaxe** :
+  ```dockerfile
+  FROM <image>[:<tag>]
+  ```
+- **Exemple** :
+  ```dockerfile
+  FROM python:3.12
+
+  ```
+
+### 2. RUN
+- **Effet** : Exécute des commandes dans le conteneur pendant le processus de construction.
+- **Syntaxe** :
+  ```dockerfile
+  RUN <command>
+  ```
+- **Exemple** :
+  ```dockerfile
+  RUN pip install --no-cache-dir -r requirements.txt
+  ```
+
+### 3. WORKDIR
+- **Effet** : Définit le répertoire de travail pour les instructions suivantes.
+- **Syntaxe** :
+  ```dockerfile
+  WORKDIR <path>
+  ```
+- **Exemple** :
+  ```dockerfile
+  WORKDIR /app
+  ```
+
+### 4. EXPOSE
+- **Effet** : Indique que le conteneur écoute sur le port spécifié.
+- **Syntaxe** :
+  ```dockerfile
+  EXPOSE <port> [<port>/<protocol>...]
+  ```
+- **Exemple** :
+  ```dockerfile
+  EXPOSE 8000
+  ```
+
+### 5. CMD
+- **Effet** : Définit la commande par défaut à exécuter lorsque le conteneur démarre.
+- **Syntaxe** :
+  ```dockerfile
+  CMD ["executable","param1","param2"]
+  ```
+- **Exemple** :
+  ```dockerfile
+  CMD ["python", "manage.py", "runserver", "0.0.0.0:8001"]
+  ```
+
+## Directives dans docker-compose.yml
+
+### 1. ports: - "80:80"
+- **Effet** : Mappe le port 80 de l'hôte au port 80 du conteneur.
+
+### 2. build:
+- **context: .**
+  - **Effet** : Définit le contexte de construction.
+- **dockerfile: Dockerfile.api**
+  - **Effet** : Spécifie le nom du fichier `Dockerfile` à utiliser.
+- **Exemple** :
+  ```yaml
+  build:
+    context: .
+    dockerfile: Dockerfile.api
+  ```
+
+### 3. depends_on:
+- **Effet** : Indique que le service dépend des autres services listés.
+- **Exemple** :
+  ```yaml
+  depends_on:
+    - web
+    - api
+  ```
+
+### 4. environment:
+- **Effet** : Définit les variables d'environnement pour le conteneur.
+- **Exemple** :
+  ```yaml
+  environment:
+    POSTGRES_DB: ${POSTGRES_DB}
+    POSTGRES_USER: ${POSTGRES_USER}
+    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  ```
+
+## Méthode pour définir des variables d'environnement dans un conteneur
+Utiliser la section `environment` dans le fichier `docker-compose.yml` .
+
+## Accès à un serveur web dans un réseau Docker
+Pour adresser le serveur web depuis le conteneur nginx, utiliser le nom de service :
+
+### Exemple de configuration Nginx :
+```nginx
+server {
+    listen 80;
+    location / {
+        proxy_pass http://web:8000;  # "web" est le nom du service
+    }
+}
+```
